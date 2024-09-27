@@ -1,0 +1,61 @@
+wandb_version: 1
+
+model:
+  desc: null
+  value: vision_transformer
+learning_rate:
+  desc: null
+  value: 0.001
+epochs:
+  desc: null
+  value: 300
+batch_size:
+  desc: null
+  value: 128
+weight_decay:
+  desc: null
+  value: 0.0001
+image_size:
+  desc: null
+  value: 65
+projection_dim:
+  desc: null
+  value: 64
+num_heads:
+  desc: null
+  value: 4
+patch_size:
+  desc: null
+  value: 8
+transformer_layers:
+  desc: null
+  value: 8
+threshold:
+  desc: null
+  value: '0.01'
+_wandb:
+  desc: null
+  value:
+    python_version: 3.11.7
+    cli_version: 0.16.6
+    framework: keras
+    is_jupyter_run: false
+    is_kaggle_kernel: false
+    start_time: 1727254999.0
+    t:
+      1:
+      - 2
+      - 3
+      - 5
+      - 49
+      - 53
+      - 55
+      - 105
+      3:
+      - 16
+      - 23
+      4: 3.11.7
+      5: 0.16.6
+      8:
+      - 5
+      13: darwin-arm64

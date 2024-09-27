@@ -1,0 +1,29 @@
+2024-09-25 12:03:19,880 INFO    MainThread:91246 [wandb_setup.py:_flush():76] Current SDK version is 0.16.6
+2024-09-25 12:03:19,880 INFO    MainThread:91246 [wandb_setup.py:_flush():76] Configure stats pid to 91246
+2024-09-25 12:03:19,880 INFO    MainThread:91246 [wandb_setup.py:_flush():76] Loading settings from /Users/emresefer/.config/wandb/settings
+2024-09-25 12:03:19,880 INFO    MainThread:91246 [wandb_setup.py:_flush():76] Loading settings from /Users/emresefer/Desktop/FinanceLab proje/Technical Indicator/wandb/settings
+2024-09-25 12:03:19,880 INFO    MainThread:91246 [wandb_setup.py:_flush():76] Loading settings from environment variables: {}
+2024-09-25 12:03:19,880 INFO    MainThread:91246 [wandb_setup.py:_flush():76] Applying setup settings: {'_disable_service': False}
+2024-09-25 12:03:19,880 INFO    MainThread:91246 [wandb_setup.py:_flush():76] Inferring run settings from compute environment: {'program_relpath': 'training.py', 'program_abspath': '/Users/emresefer/Desktop/FinanceLab proje/Technical Indicator/training.py', 'program': '/Users/emresefer/Desktop/FinanceLab proje/Technical Indicator/training.py'}
+2024-09-25 12:03:19,880 INFO    MainThread:91246 [wandb_setup.py:_flush():76] Applying login settings: {}
+2024-09-25 12:03:19,880 INFO    MainThread:91246 [wandb_init.py:_log_setup():521] Logging user logs to /Users/emresefer/Desktop/FinanceLab proje/Technical Indicator/wandb/run-20240925_120319-zfb077dz/logs/debug.log
+2024-09-25 12:03:19,880 INFO    MainThread:91246 [wandb_init.py:_log_setup():522] Logging internal logs to /Users/emresefer/Desktop/FinanceLab proje/Technical Indicator/wandb/run-20240925_120319-zfb077dz/logs/debug-internal.log
+2024-09-25 12:03:19,881 INFO    MainThread:91246 [wandb_init.py:init():561] calling init triggers
+2024-09-25 12:03:19,881 INFO    MainThread:91246 [wandb_init.py:init():568] wandb.init called with sweep_config: {}
+config: {'model': 'vision_transformer', 'learning_rate': 0.001, 'epochs': 300, 'batch_size': 128, 'weight_decay': 0.0001, 'image_size': 65, 'projection_dim': 64, 'num_heads': 4, 'patch_size': 8, 'transformer_layers': 8, 'threshold': '0.01'}
+2024-09-25 12:03:19,881 INFO    MainThread:91246 [wandb_init.py:init():611] starting backend
+2024-09-25 12:03:19,881 INFO    MainThread:91246 [wandb_init.py:init():615] setting up manager
+2024-09-25 12:03:19,885 INFO    MainThread:91246 [backend.py:_multiprocessing_setup():105] multiprocessing start_methods=spawn,fork,forkserver, using: spawn
+2024-09-25 12:03:19,887 INFO    MainThread:91246 [wandb_init.py:init():623] backend started and connected
+2024-09-25 12:03:19,894 INFO    MainThread:91246 [wandb_init.py:init():715] updated telemetry
+2024-09-25 12:03:19,918 INFO    MainThread:91246 [wandb_init.py:init():748] communicating run to backend with 90.0 second timeout
+2024-09-25 12:03:20,349 ERROR   MainThread:91246 [wandb_init.py:init():774] encountered error: It appears that you do not have permission to access the requested resource. Please reach out to the project owner to grant you access. If you have the correct permissions, verify that there are no issues with your networking setup.(Error 404: Not Found)
+2024-09-25 12:03:20,633 ERROR   MainThread:91246 [wandb_init.py:init():1199] It appears that you do not have permission to access the requested resource. Please reach out to the project owner to grant you access. If you have the correct permissions, verify that there are no issues with your networking setup.(Error 404: Not Found)
+Traceback (most recent call last):
+  File "/opt/anaconda3/lib/python3.11/site-packages/wandb/sdk/wandb_init.py", line 1181, in init
+    run = wi.init()
+          ^^^^^^^^^
+  File "/opt/anaconda3/lib/python3.11/site-packages/wandb/sdk/wandb_init.py", line 780, in init
+    raise error
+wandb.errors.CommError: It appears that you do not have permission to access the requested resource. Please reach out to the project owner to grant you access. If you have the correct permissions, verify that there are no issues with your networking setup.(Error 404: Not Found)
+2024-09-25 12:03:21,643 WARNING MsgRouterThr:91246 [router.py:message_loop():77] message_loop has been closed
