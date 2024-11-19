@@ -41,7 +41,7 @@ hyperparameters = {
         "learning_rate_type": 0.001,  # 0.001
         "weight_decay": 0.0001,
         "batch_size": 128,
-        "num_epochs": 20, #300
+        "num_epochs": 10, #300
         "image_size": 65,  # We'll resize input images to this size
         "patch_size": 8,  # Size of the patches to be extract from the input images
         "projection_dim": 64,  # 128

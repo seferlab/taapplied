@@ -40,28 +40,32 @@ def load_dataset():
             np.load(f"ETF/TestData/x_{etf}.npy"))
         y_test.extend(
             np.load(f"ETF/TestData/y_{etf}.npy"))
-    x_train_new = []
-    y_train_new = []
-    for x_t, y_t in zip(x_train, y_train):
-        if y_t != 1:
-            x_train_new.append(x_t)
-            y_train_new.append(y_t)
-            x_train_new.append(x_t)
-            y_train_new.append(y_t)
 
-    x_train.extend(x_train_new)
-    y_train.extend(y_train_new)
+    #x_train_new = []
+    #y_train_new = []
+    #for x_t, y_t in zip(x_train, y_train):
+    #    if y_t != 1:
+    #        x_train_new.append(x_t)
+    #        y_train_new.append(y_t)
+    #        x_train_new.append(x_t)
+    #        y_train_new.append(y_t)
+
+    #x_train.extend(x_train_new)
+    #y_train.extend(y_train_new)
     unique, counts = np.unique(y_train, return_counts=True)
     print(np.asarray((unique, counts)).T)
     return x_train, y_train, x_test, y_test
 
 
-def prepare_dataset(x_train, y_train, x_test):
-    val_split = 0.1
+def prepare_dataset(x_train, y_train):
+    val_split = 0.01
 
-    val_indices = int(len(x_train) * val_split)
-    new_x_train, new_y_train = x_train[val_indices:], y_train[val_indices:]
-    x_val, y_val = x_train[:val_indices], y_train[:val_indices]
+    val_indices = int(len(x_train) * (1-val_split))
+    #new_x_train, new_y_train = x_train[val_indices:], y_train[val_indices:]
+    #x_val, y_val = x_train[:val_indices], y_train[:val_indices]
+
+    new_x_train, new_y_train = x_train[:val_indices], y_train[:val_indices]
+    x_val, y_val = x_train[val_indices:], y_train[val_indices:]
 
     print(f"Training data samples: {len(new_x_train)}")
     print(f"Validation data samples: {len(x_val)}")
@@ -72,8 +76,8 @@ def prepare_dataset(x_train, y_train, x_test):
 
 def make_datasets(images, labels, is_train=False):
     dataset = tf.data.Dataset.from_tensor_slices((images, labels))
-    if is_train:
-        dataset = dataset.shuffle(hyperparameters["batch_size"] * 10)
+    #if is_train:
+    #    dataset = dataset.shuffle(hyperparameters["batch_size"] * 10)
     dataset = dataset.batch(hyperparameters["batch_size"])
     return dataset.prefetch(tf.data.AUTOTUNE)
 
@@ -85,15 +89,17 @@ def get_finalized_datasets(new_x_train, new_y_train, x_val, y_val, x_test, y_tes
     return train_dataset, val_dataset, test_dataset
 
 
-def run_experiment(model, test_dataset, x_test, y_test):
-    # early_stopping = tf.keras.callbacks.EarlyStopping(
-    #     monitor="val_loss", patience=10, restore_best_weights=True
-    # )
+#def run_experiment(model, test_dataset, x_test, y_test):
+def run_experiment(model, train_dataset, val_dataset, x_train, y_train):
+    early_stopping = tf.keras.callbacks.EarlyStopping(
+         monitor="val_loss", patience=5, restore_best_weights=True
+     )
     #callback_list = [CustomCallback(
     #    test_dataset, epoch_counter, t, y_test), WandbCallback()]
     #callback_list = [CustomCallback(
     #    test_dataset, epoch_counter, t, y_test)]
-    callback_list = []
+    #callback_list = [early_stopping]
+    
     #if hyperparameters["learning_rate_type"] != "WarmUpCosine" and hyperparameters["learning_rate_type"] != "Not found":
     #    callback_list.append(hyperparameters["learning_rate_scheduler"])
 
@@ -101,6 +107,8 @@ def run_experiment(model, test_dataset, x_test, y_test):
     #import sys
     #sys.exit(1)
 
+    #callback_list = [early_stopping]
+    callback_list = []
     history = model.fit(
         train_dataset,
         validation_data=val_dataset,
@@ -108,25 +116,30 @@ def run_experiment(model, test_dataset, x_test, y_test):
         callbacks=callback_list,
     )
 
-    filepath = "my_model.weights.h5"
+    filepath = "my_model_10epoch.weights.h5"
     model.save_weights(filepath)
-    #model2 = get_model()
-    #model2.load_weights(filepath)
-    import sys
-    sys.exit(1)
+    model2 = get_model()
+    model2.load_weights(filepath)
+    #import sys
+    #sys.exit(1)
     
     #filepath = "my_model.keras"
     #model.save(filepath)
     #from keras.models import load_model
     #model = load_model(filepath)
-
-    #print(np.shape(x_test[0]))
-    #prediction = model2.predict([x_test[0]])
-    #print(prediction)
-    #import sys
-    #sys.exit(1)
     
-    loss, accuracy, *anything_else = model2.evaluate(test_dataset)
+    preds = []
+    for ind in range(len(x_train)):
+        image = tf.convert_to_tensor(x_train[ind].reshape(1,65,65))
+        prediction = model2.predict(image)
+        preds.append(prediction)
+    print(preds)
+    import sys
+    sys.exit(1)
+    
+    loss, accuracy, *anything_else = model2.evaluate(train_dataset)
+    print(loss)
+    print(accuracy)
     print(anything_else)
     import sys
     sys.exit(1)
@@ -141,12 +154,22 @@ if __name__ == "__main__":
     #initialize_wandb()
     x_train, y_train, x_test, y_test = load_dataset()
 
+    #d = {}
+    #for item2 in y_test:
+    #    item = item2[0] 
+    #    if item not in d:
+    #        d[item] = 0
+    #    d[item] += 1    
+    #print(d)
+    #import sys
+    #sys.exit(1)
+    
     new_x_train, new_y_train, x_val, y_val = prepare_dataset(
-        x_train, y_train, x_test)
+        x_train, y_train)
     train_dataset, val_dataset, test_dataset = get_finalized_datasets(
         new_x_train, new_y_train, x_val, y_val, x_test, y_test)
     model = get_model()
-    history, trained_model = run_experiment(model, test_dataset, x_test, y_test)
+    history, trained_model = run_experiment(model, train_dataset, val_dataset, x_train, y_train)
 
     predictions = trained_model.predict(test_dataset)
     classes = np.argmax(predictions, axis=1)

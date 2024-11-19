@@ -19,7 +19,7 @@ def process(etf, startDate, endDate):
            'BETA', 'WCLPRICE', 'TSF', 'TYPPRICE', 'AVGPRICE', 'MEDPRICE', 'BBANDSL', 'LINEARREG', 'OBV', 'BBANDSM', 'TEMA', 'BBANDSU', 'DEMA', 'MIDPRICE', 'MIDPOINT', 'WMA', 'EMA',
            'HT_TRENDLINE', 'KAMA', 'SMA', 'MA', 'ADXR', 'ADX', 'TRIMA', 'LINEARREG_INTERCEPT', 'DX']
 
-    threshold = 0.0038 
+    threshold = 0.0038
 
     imageList = []
     labelList = []
@@ -272,16 +272,27 @@ def process(etf, startDate, endDate):
         # If the price hasn't changed
         else:
             labelList.append(np.array([1.0]))  # HOLD
-            
+
+    standartized_image_list = []
+    for img in imageList:
+        m = np.mean(img, axis=1, keepdims=True)
+        s = np.std(img, axis=1, keepdims=True)
+        standartized_image = np.expand_dims((img - m) / s, axis=-1)
+        standartized_image_list.append(standartized_image)
+        
     dates = data[maxNullVal+nIndicators:].index
     dates = dates.to_pydatetime()
 
-    return imageList, labelList, dates
+    #print(labelList)
+    #import sys
+    #sys.exit(1)
+    
+    return standartized_image_list, labelList, dates
 
-def plot_predictions(imageList, dates):
+def plot_predictions(imageList, labelList, dates):
     """
     """
-    filepath = "my_model.weights.h5"
+    filepath = "my_model_10epoch.weights.h5"
     model = get_model()
     model.load_weights(filepath)
     model.summary()
@@ -289,9 +300,10 @@ def plot_predictions(imageList, dates):
     predictions = []
     for image in imageList:
         image = tf.convert_to_tensor(image.reshape(1,65,65))        
-        output = model.predict([image])
-
+        output = model.predict(image)
         index_max = max(range(len(output)), key=output.__getitem__)
+        print(index_max)
+        
         if index_max == 0: #Buy
             predictions.append(1)
         elif index_max == 1: #Hold
@@ -299,15 +311,26 @@ def plot_predictions(imageList, dates):
         elif index_max == 2: # Sell
             predictions.append(-1)
 
+    predictions = []
+    for label in labelList:
+        if label == 0: #Buy
+            predictions.append(1)
+        elif label == 1: #Hold
+            predictions.append(0)
+        elif label == 2: # Sell
+            predictions.append(-1)
+            
     plotpath = "predictions.png"
     plt.plot(dates,predictions)
     plt.savefig(plotpath, dpi=600)
-    
+
+   
 
 startDate = '2021-04-11'
 endDate = '2022-04-15'
-etf = "XLF"
+etf = "QQQ"
+
 
 imageList, labelList, dates = process(etf, startDate, endDate)
-plot_predictions(imageList, dates)
+plot_predictions(imageList, labelList, dates)
 

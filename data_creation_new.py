@@ -294,7 +294,7 @@ for etf in etfList:
     print(len(imageList))
     print(len(labelList))
     print(len(data_close[:-1]))
-
+    
     # imageList = np.array(imageList)
     # labelList = np.array(labelList)
 
