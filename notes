@@ -4,3 +4,13 @@ data_creation_new.py: Generates data for training
 training.py: Train the model and saves it
 
 processdata.py: Reads saved model and makes predictions
+
+
+
+Hersey store edilecek. Indikatorleri store ederiz.
+
+Training period 10 yillik, shortlama yok, nakite donme veya alma.
+
+Tahmin periodi default 1 yildir verilecek.
+
+1- Metrikler eklenecek oncelikli. Sharpe Ratio, Drawdown, Information Ratio, Average Return, Standard deviation.

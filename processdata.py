@@ -289,7 +289,7 @@ def process(etf, startDate, endDate):
     
     return standartized_image_list, labelList, dates
 
-def plot_predictions(imageList, labelList, dates):
+def plot_predictions(imageList, labelList, dates, etf):
     """
     """
     filepath = "my_model_10epoch.weights.h5"
@@ -319,12 +319,37 @@ def plot_predictions(imageList, labelList, dates):
             predictions.append(0)
         elif label == 2: # Sell
             predictions.append(-1)
+
+    mindate = dates[0]
+    maxdate = dates[-1]
+    data = yf.download(etf, start=mindate, end=maxdate)
+
+    stock = None 
+    pnls = [100]
+    for ind,date in enumerate(dates[1:]):
+        price = data.loc[date]["Adj Close"]
+        stock = pnls[ind]/price
+        if predictions[]
+        
+        print(value)
+        import sys
+        sys.exit(1)
+        
+    import sys
+    sys.exit(1)
+    
+    print(dates)
+    print(len(dates))
+    print(len(imageList))
+    print(len(labelList))
+    import sys
+    sys.exit(1)
             
     plotpath = "predictions.png"
     plt.plot(dates,predictions)
     plt.savefig(plotpath, dpi=600)
-
-   
+    
+    
 
 startDate = '2021-04-11'
 endDate = '2022-04-15'
@@ -332,5 +357,5 @@ etf = "QQQ"
 
 
 imageList, labelList, dates = process(etf, startDate, endDate)
-plot_predictions(imageList, labelList, dates)
+plot_predictions(imageList, labelList, dates, etf)
 
