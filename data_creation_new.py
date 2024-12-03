@@ -7,11 +7,11 @@ import os
 '''
 DEFINING SOME VARIABLES
 '''
-#startDate = '2001-10-11'
-#endDate = '2022-04-15'
+startDate = '2014-1-1'
+endDate = '2024-11-18'
 
-startDate = '2021-04-11'
-endDate = '2022-04-15'
+#startDate = '2021-04-11'
+#endDate = '2022-04-15'
 
 axes = ['Date', 'Value']
 headers = ['RSI', 'CMO', 'PLUS_DI', 'MINUS_DI', 'WILLR', 'CCI', 'ULTOSC', 'AROONOSC', 'MFI', 'MOM', 'MACD', 'MACDFIX', 'LINEARREG_ANGLE', 'LINEARREG_SLOPE', 'ROCP', 'ROC', 'ROCR', 'ROCR100', 'SLOWK',
@@ -264,7 +264,7 @@ for etf in etfList:
     '''
     # Pandas Series, size=n_days-(maxNullVal+nIndicators-1) -> Check this, size is imageList+1, might be a bug.
     data_close = data[maxNullVal+nIndicators-1:]["Close"]
-
+    
     # Buy : 0
     # Hold: 1
     # Sell: 2
@@ -338,7 +338,7 @@ for etf in etfList:
     test_price = []
 
     for index in range(len(standartized_image_list)):
-        if(index < (len(standartized_image_list) * 0.8)):
+        if(index < (len(standartized_image_list) * 0.9)):
             x_train.append(standartized_image_list[index])
             y_train.append(labelList[index])
             train_date.append(data_close.index[index])

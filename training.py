@@ -7,7 +7,7 @@ from architectures.helpers.constants import hyperparameters
 from architectures.helpers.constants import etf_list
 from architectures.helpers.constants import threshold
 from architectures.helpers.constants import selected_model
-from architectures.helpers.wandb_handler import initialize_wandb
+#from architectures.helpers.wandb_handler import initialize_wandb
 from architectures.helpers.custom_callbacks import CustomCallback
 
 from architectures.helpers.model_handler import get_model
@@ -16,7 +16,7 @@ from sklearn.metrics import f1_score
 from sklearn.metrics import classification_report
 from sklearn.metrics import confusion_matrix
 from tensorflow import keras
-from wandb.keras import WandbCallback
+#from wandb.keras import WandbCallback
 
 hyperparameters = hyperparameters[selected_model]
 t = time.time()
@@ -24,8 +24,6 @@ epoch_counter = 1
 
 ''' Dataset Preperation
 '''
-
-
 def load_dataset():
     x_train = []
     y_train = []
@@ -116,7 +114,8 @@ def run_experiment(model, train_dataset, val_dataset, x_train, y_train):
         callbacks=callback_list,
     )
 
-    filepath = "my_model_10epoch.weights.h5"
+    filepath = "my_model.weights.h5"
+    #filepath = "my_model_10epoch_cnnta.weights.h5"
     model.save_weights(filepath)
     model2 = get_model()
     model2.load_weights(filepath)
@@ -134,15 +133,15 @@ def run_experiment(model, train_dataset, val_dataset, x_train, y_train):
         prediction = model2.predict(image)
         preds.append(prediction)
     print(preds)
-    import sys
-    sys.exit(1)
+    #import sys
+    #sys.exit(1)
     
     loss, accuracy, *anything_else = model2.evaluate(train_dataset)
     print(loss)
     print(accuracy)
     print(anything_else)
-    import sys
-    sys.exit(1)
+    #import sys
+    #sys.exit(1)
     
     print(
         f"Test accuracy: {round(accuracy * 100, 2)}%, Test loss: {round(loss, 4)}")
@@ -151,7 +150,6 @@ def run_experiment(model, train_dataset, val_dataset, x_train, y_train):
 
 
 if __name__ == "__main__":
-    #initialize_wandb()
     x_train, y_train, x_test, y_test = load_dataset()
 
     #d = {}

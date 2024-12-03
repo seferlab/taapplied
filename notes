@@ -1,16 +1,31 @@
 
 data_creation_new.py: Generates data for training
 
-training.py: Train the model and saves it
+training.py: Train the model and saves it vision_transformer
 
-processdata.py: Reads saved model and makes predictions
+processdata.py(MAYNOT BE NEEDED): Reads saved model and makes predictions. 
+
+financial_evaluation_new: financial evaluation
 
 
-
+Checked:
 Hersey store edilecek. Indikatorleri store ederiz.
+
 
 Training period 10 yillik, shortlama yok, nakite donme veya alma.
 
 Tahmin periodi default 1 yildir verilecek.
 
 1- Metrikler eklenecek oncelikli. Sharpe Ratio, Drawdown, Information Ratio, Average Return, Standard deviation.
+
+Portfolio olusturma ve sonuclar
+
+
+
+Financial evaluation icin aciklama:
+
+1- portfolioAnalysis(): Portfolio bazli analiz kodu. Hicbir parametre almaz.
+ 
+2- singleetf_analyze(etf_selected):
+
+

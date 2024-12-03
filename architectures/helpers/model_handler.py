@@ -3,7 +3,7 @@ from architectures.helpers.constants import selected_model
 #from architectures.convmixer import get_cm_model
 from architectures.vision_transformer import get_vit_model
 #from architectures.mlp_mixer import get_mm_model
-#from architectures.cnn_ta import get_ct_model
+from architectures.cnn_ta import get_ct_model
 from architectures.vit import get_vit
 
 

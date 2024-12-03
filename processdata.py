@@ -292,9 +292,10 @@ def process(etf, startDate, endDate):
 def plot_predictions(imageList, labelList, dates, etf):
     """
     """
-    filepath = "my_model_10epoch.weights.h5"
+    filepath = "my_model.weights.h5"
     model = get_model()
     model.load_weights(filepath)
+    model.build((1,65,65)) 
     model.summary()
 
     predictions = []
@@ -329,9 +330,8 @@ def plot_predictions(imageList, labelList, dates, etf):
     for ind,date in enumerate(dates[1:]):
         price = data.loc[date]["Adj Close"]
         stock = pnls[ind]/price
-        if predictions[]
-        
-        print(value)
+        if predictions[ind] == 0:
+            print(value)
         import sys
         sys.exit(1)
         
@@ -342,8 +342,8 @@ def plot_predictions(imageList, labelList, dates, etf):
     print(len(dates))
     print(len(imageList))
     print(len(labelList))
-    import sys
-    sys.exit(1)
+    #import sys
+    #sys.exit(1)
             
     plotpath = "predictions.png"
     plt.plot(dates,predictions)
